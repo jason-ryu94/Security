@@ -1,14 +1,12 @@
-package springsecurity.login.controller;
+package springsecurity.login.app.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import springsecurity.login.dto.LoginForm;
-import springsecurity.login.service.MemberService;
+import springsecurity.login.app.dto.LoginForm;
+import springsecurity.login.app.service.MemberService;
 
 @Slf4j
 @Controller

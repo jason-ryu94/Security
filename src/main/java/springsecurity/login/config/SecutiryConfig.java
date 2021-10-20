@@ -13,6 +13,10 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
         webSecurity.ignoring().antMatchers("/css/**", "/script/**", "image/**", "/fonts/**", "lib/**", "/");
     }
 
+
+    /**
+     * /admin 으로 들어오는 요청은 ADMIN ROLE 을 가지고 있어야 한다.
+     */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()

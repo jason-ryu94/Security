@@ -1,18 +1,20 @@
-package springsecurity.login.service;
+package springsecurity.login.app.repository;
 
-import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import springsecurity.login.entity.Member;
-import springsecurity.login.entity.MemberRole;
-import springsecurity.login.repository.MemberRepository;
-import springsecurity.login.repository.MemberRoleRepository;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import springsecurity.login.app.entity.Member;
+import springsecurity.login.app.entity.MemberRole;
+
+import javax.persistence.EntityManager;
 
 import java.util.List;
 
-@Service
-@Slf4j
-public class MemberService {
+@SpringBootTest
+@Transactional
+public class MemberRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
@@ -20,9 +22,11 @@ public class MemberService {
     @Autowired
     MemberRoleRepository memberRoleRepository;
 
-    public void tt() {
+    @Autowired
+    EntityManager em;
 
-        log.info("tt ~~~~~~~~~~~~~~~~시작");
+    @BeforeEach
+    public void before() {
         MemberRole role1 = new MemberRole("BASIC");
         MemberRole role2 = new MemberRole("ADMIN");
         MemberRole role3 = new MemberRole("MASTER");
@@ -44,14 +48,22 @@ public class MemberService {
         memberRepository.save(member2);
         memberRepository.save(member3);
 
-        log.info("tt ~~~~~~~~~~~~~~~~끝");
+
     }
-    
-    public void tt2() {
+
+    @Test
+    public void testData() {
         List<Member> members = memberRepository.findAll();
-        
+
         for(Member m : members) {
+            System.out.println("m = " + m);
             System.out.println("m.getRoles() = " + m.getRoles());
         }
+
+        List<MemberRole> all = memberRoleRepository.findAll();
+        for (MemberRole r : all) {
+            System.out.println("r = " + r);
+        }
     }
+
 }

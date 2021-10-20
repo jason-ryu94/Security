@@ -1,22 +1,18 @@
-package springsecurity.login.repository;
+package springsecurity.login.app.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import springsecurity.login.entity.Member;
-import springsecurity.login.entity.MemberRole;
-
-import javax.persistence.EntityManager;
+import org.springframework.stereotype.Service;
+import springsecurity.login.app.entity.Member;
+import springsecurity.login.app.entity.MemberRole;
+import springsecurity.login.app.repository.MemberRepository;
+import springsecurity.login.app.repository.MemberRoleRepository;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest
-@Transactional
-public class MemberRepositoryTest {
+@Service
+@Slf4j
+public class MemberService {
 
     @Autowired
     MemberRepository memberRepository;
@@ -24,11 +20,9 @@ public class MemberRepositoryTest {
     @Autowired
     MemberRoleRepository memberRoleRepository;
 
-    @Autowired
-    EntityManager em;
+    public void tt() {
 
-    @BeforeEach
-    public void before() {
+        log.info("tt ~~~~~~~~~~~~~~~~시작");
         MemberRole role1 = new MemberRole("BASIC");
         MemberRole role2 = new MemberRole("ADMIN");
         MemberRole role3 = new MemberRole("MASTER");
@@ -50,22 +44,14 @@ public class MemberRepositoryTest {
         memberRepository.save(member2);
         memberRepository.save(member3);
 
-
+        log.info("tt ~~~~~~~~~~~~~~~~끝");
     }
-
-    @Test
-    public void testData() {
+    
+    public void tt2() {
         List<Member> members = memberRepository.findAll();
-
+        
         for(Member m : members) {
-            System.out.println("m = " + m);
             System.out.println("m.getRoles() = " + m.getRoles());
         }
-
-        List<MemberRole> all = memberRoleRepository.findAll();
-        for (MemberRole r : all) {
-            System.out.println("r = " + r);
-        }
     }
-
 }

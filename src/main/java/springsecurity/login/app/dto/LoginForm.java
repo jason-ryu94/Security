@@ -1,4 +1,4 @@
-package springsecurity.login.dto;
+package springsecurity.login.app.dto;
 
 import lombok.Data;
 

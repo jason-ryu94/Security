@@ -1,4 +1,4 @@
-package springsecurity.login.entity;
+package springsecurity.login.app.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
