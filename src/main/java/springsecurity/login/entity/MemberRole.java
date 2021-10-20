@@ -18,6 +18,8 @@ public class MemberRole {
 
     private String roleName;
 
+    private String description;
+
     public MemberRole() {
     }
 
