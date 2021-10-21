@@ -5,11 +5,11 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class LoginForm {
+public class LoginDto {
 
     @NotEmpty
-    private String loginId;
+    private String userId;
 
     @NotEmpty
-    private String password;
+    private String userPassword;
 }

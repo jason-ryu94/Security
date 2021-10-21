@@ -3,17 +3,26 @@ package springsecurity.login.app.entity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * UserDetail와 Entity를 같은 클래스에서 관리한다.
+ */
 
 @Entity
 @Getter @Setter
 @EqualsAndHashCode(of = "userId")
 @ToString(of = {"id", "username", "age"})
-public class Member {
+public class Member implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -56,5 +65,46 @@ public class Member {
 
     public void addRole(MemberRole role) {
         this.roles.add(role);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<String> roleList = this.roles.stream()
+                .map(e -> e.getRoleName())
+                .collect(Collectors.toList());
+
+        return roleList.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return userId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

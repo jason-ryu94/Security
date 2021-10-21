@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import springsecurity.login.app.dto.LoginForm;
+import org.springframework.web.bind.annotation.PostMapping;
+import springsecurity.login.app.dto.LoginDto;
 import springsecurity.login.app.service.MemberService;
 
 @Slf4j
@@ -14,11 +16,17 @@ import springsecurity.login.app.service.MemberService;
 public class loginController {
 
     private final MemberService memberService;
+
+
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
-        memberService.tt();
-        memberService.tt2();
+    public String loginForm() {
         return "login/loginForm";
+    }
+
+    @PostMapping("/login")
+    public String login( LoginDto loginDto) {
+
+        return memberService.login(loginDto);
     }
 
 }

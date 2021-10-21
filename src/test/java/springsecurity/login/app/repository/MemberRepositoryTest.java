@@ -22,8 +22,6 @@ public class MemberRepositoryTest {
     @Autowired
     MemberRoleRepository memberRoleRepository;
 
-    @Autowired
-    EntityManager em;
 
     @BeforeEach
     public void before() {
@@ -47,6 +45,7 @@ public class MemberRepositoryTest {
         memberRepository.save(member1);
         memberRepository.save(member2);
         memberRepository.save(member3);
+
 
 
     }

@@ -1,24 +1,31 @@
 package springsecurity.login.app.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import springsecurity.login.app.dto.LoginDto;
 import springsecurity.login.app.entity.Member;
 import springsecurity.login.app.entity.MemberRole;
 import springsecurity.login.app.repository.MemberRepository;
 import springsecurity.login.app.repository.MemberRoleRepository;
+import springsecurity.login.security.jwt.JwtTokenProvider;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired
-    MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final MemberRoleRepository memberRoleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    MemberRoleRepository memberRoleRepository;
+
 
     public void tt() {
 
@@ -54,4 +61,19 @@ public class MemberService {
             System.out.println("m.getRoles() = " + m.getRoles());
         }
     }
+
+    public String login(LoginDto loginDto) {
+        Member findMember = memberRepository.findByUserId(loginDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 ID 입니다."));
+        if(!passwordEncoder.matches(loginDto.getUserPassword(), findMember.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+
+        List<String> roleList = findMember.getRoles().stream()
+                .map(e -> e.getRoleName())
+                .collect(Collectors.toList());
+
+        return jwtTokenProvider.createToken(findMember.getUserId(), roleList);
+    }
+
 }
